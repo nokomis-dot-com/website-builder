@@ -1,0 +1,33 @@
+# website-builder
+
+This builds a docker image called `website-builder`, which, when built
+by CircleCI (which happens on every commit), is uploaded to DockerHub
+
+This image is designed to build hugo based websites with support for
+postcss and tailwind.
+
+Typical usage for that image from the desktop would be something like:
+
+```
+docker run -t --mount type=bind,source="$(pwd)",target=/home/node/project nokomisdotcom/website-builder
+```
+
+From the directory where your hugo website is checked out in.  The
+resulting build will be in the `public` directory.
+
+## Details on the Image
+
+The image has the following capabilities:
+
+- **hugo** is installed (at `/usr/bin/hugo`)
+- **aws-cli** tools (version 1) are installed to allow you to upload
+  the website you've built or do anything else you need on AWS
+- **node** is installed to allow you to use postcss and tailwind.  In
+  particular the latest versions of the following modules are installed
+  globally:
+  - autoprefixer
+  - postcss
+  - postcss-cli
+  - postcss-import
+  - tailwindcss
+  - tw-elements
