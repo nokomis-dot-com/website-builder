@@ -1,21 +1,6 @@
-# we start by using the official node image.  This means we have
-# significantly less work to do
-FROM node:lts-alpine
-
-# install stuff via apk
-# 1) hugo (this is actually hugo extended)
-# 2) the amazon cli tools (version 1 since it requires less
-# dependencies). This also installs python3 for us.
-# this was adapted from here:
-# https://stackoverflow.com/questions/61918972/how-to-install-aws-cli-on-alpine
-RUN apk add --no-cache \
-        hugo \
-        python3 \
-        py3-pip \
-    && pip3 install --upgrade pip \
-    && pip3 install --no-cache-dir \
-        awscli \
-    && rm -rf /var/cache/apk/*
+# this image has both node and hugo-extended installed.
+# (it's 420MB, so a little on the large side.  Oh well.)
+FROM peaceiris/hugo:latest-full
 
 # install all our npm dependencies globally
 RUN npm install -g \
@@ -28,4 +13,4 @@ RUN npm install -g \
 
 # finally run the script as our default build
 WORKDIR /home/node
-CMD cd project && hugo
+ENTRYPOINT [ "/usr/bin/hugo" ]
