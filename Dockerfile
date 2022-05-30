@@ -11,6 +11,9 @@ RUN npm install -g \
     tailwindcss \
     tw-elements
 
+# install the ssh-client (useful to allow git to checkout things)
+RUN apk add openssh
+
 # finally run the script as our default build
 WORKDIR /home/node
 ENTRYPOINT [ "/usr/bin/hugo" ]
